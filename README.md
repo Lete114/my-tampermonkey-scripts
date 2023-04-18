@@ -6,9 +6,10 @@
 
 ## 目录
 
-| 网站        | 安装                                                                                          | 描述                                 |
-| ----------- | --------------------------------------------------------------------------------------------- | ------------------------------------ |
-| CSDN 文章页 | [安装](https://github.com/Lete114/my-tampermonkey-scripts/raw/main/csdn/blog/article.user.js) | 绿化 CSDN 文章页，提高可读性，易用性 |
+| 网站                 | 安装                                                                                          | 描述                                 |
+| -------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------ |
+| CSDN 文章页          | [安装](https://github.com/Lete114/my-tampermonkey-scripts/raw/main/csdn/blog/article.user.js) | 绿化 CSDN 文章页，提高可读性，易用性 |
+| ChatGPT 错误自动刷新 | [安装](https://github.com/Lete114/my-tampermonkey-scripts/raw/main/openai/chat/auto-reload.user.js) | 报错自动刷新，并填充之前报错的提问   |
 
 ## LICENSE
 
