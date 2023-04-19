@@ -20,9 +20,17 @@
   const activateSecond = Number(localStorage.getItem('activateSecond')) || 60
 
   let activateTimer = activateChatGPT(activateSecond)
+  let isCatch = false
   function activateChatGPT(ms) {
     return setInterval(() => {
-      fetch(activateURL)
+      fetch(activateURL).catch(() => {
+        clearInterval(activateTimer)
+        // 请求错误时重试 1 次
+        // 如果重试后依然错误，则重新加载页面
+        if (isCatch) return location.reload()
+        isCatch = true
+        activateTimer = activateChatGPT(ms)
+      })
     }, ms * 1000)
   }
 
