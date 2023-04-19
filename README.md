@@ -6,10 +6,11 @@
 
 ## 目录
 
-| 网站                 | 安装                                                                                                | 描述                                     | 详细说明                                                                |
+| 标题                 | 安装                                                                                                | 描述                                     | 详细说明                                                                |
 | -------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------- |
 | CSDN 文章页          | [安装](https://github.com/Lete114/my-tampermonkey-scripts/raw/main/csdn/blog/article.user.js)       | 绿化 CSDN 文章页，提高可读性，易用性     |
 | ChatGPT 错误自动刷新 | [安装](https://github.com/Lete114/my-tampermonkey-scripts/raw/main/openai/chat/auto-reload.user.js) | 报错自动刷新，并填充之前报错的提问，保活 | [详细说明](https://github.com/Lete114/my-tampermonkey-scripts/issues/1) |
+| Youtube 视频进度条   | [安装](https://github.com/Lete114/my-tampermonkey-scripts/raw/main/youtube/video-progress.user.js)  | Youtube 视频进度条实时显示               | [详细说明](https://github.com/Lete114/my-tampermonkey-scripts/issues/2) |
 
 ## LICENSE
 
