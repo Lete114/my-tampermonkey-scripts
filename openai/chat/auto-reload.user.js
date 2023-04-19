@@ -20,21 +20,21 @@
   const activateSecond = Number(localStorage.getItem('activateSecond')) || 60
 
   let activateTimer = activateChatGPT(activateSecond)
-  let isCatch = false
   function activateChatGPT(ms) {
     return setInterval(() => {
-      fetch(activateURL).catch(() => {
-        clearInterval(activateTimer)
+      fetch(activateURL).then((response) => {
+        if (response.ok) return
         // 请求错误时重试 1 次
         // 如果重试后依然错误，则重新加载页面
-        if (isCatch) return location.reload()
-        isCatch = true
-        activateTimer = activateChatGPT(ms)
+        fetch(activateURL).then((response) => {
+          if (response.ok) return
+          location.reload()
+        })
       })
     }, ms * 1000)
   }
 
-  const promptString = '自定义激活时间(单位秒)'
+  const promptString = '自定义多少秒激活一次 ChatGPT (默认 60 秒)'
   GM_registerMenuCommand(promptString, function () {
     const second = Number(window.prompt(promptString, activateSecond))
     if (second) {
