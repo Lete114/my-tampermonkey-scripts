@@ -2,10 +2,11 @@
 // @author       Lete114
 // @version      0.1
 // @name         ChatGPT 错误自动刷新
-// @description  (自用脚本) 报错自动刷新，并填充之前报错的提问内容
+// @description  (自用脚本) 报错自动刷新，并填充之前报错的提问内容，保活
 // @match        https://chat.openai.com/*
 // @icon         https://chat.openai.com/favicon.ico
 // @namespace    https://github.com/Lete114/my-tampermonkey-scripts
+// @grant        GM_registerMenuCommand
 // ==/UserScript==
 
 ;(function () {
@@ -14,14 +15,33 @@
   const $ = (Selector) => document.querySelector(Selector)
   const $$ = (Selector) => document.querySelectorAll(Selector)
 
-  let key = 'ChatGPT_question_cache'
+  const key = 'ChatGPT_question_cache'
+  const activateURL = 'https://chat.openai.com/api/auth/session'
+  const activateSecond = Number(localStorage.getItem('activateSecond')) || 60
+
+  let activateTimer = activateChatGPT(activateSecond)
+  function activateChatGPT(ms) {
+    return setInterval(() => {
+      fetch(activateURL)
+    }, ms * 1000)
+  }
+
+  const promptString = '自定义激活时间(单位秒)'
+  GM_registerMenuCommand(promptString, function () {
+    const second = Number(window.prompt(promptString, activateSecond))
+    if (second) {
+      clearInterval(activateTimer)
+      localStorage.setItem('activateSecond', second)
+      activateTimer = activateChatGPT(second)
+    }
+  })
 
   window.addEventListener('load', () => {
-    let value = sessionStorage.getItem(key)
+    const value = sessionStorage.getItem(key)
     if (!value) return
     const id = setInterval(() => {
-      let input = $('textarea')
-      let mask = $$('.rounded-sm')
+      const input = $('textarea')
+      const mask = $$('.rounded-sm')
       if (!input || !(mask && mask.length)) return
       if (!input.value) input.value = value
       input.nextElementSibling.removeAttribute('disabled')
@@ -33,11 +53,11 @@
   })
 
   const id = setInterval(() => {
-    let el = $$('.border-red-500')
+    const el = $$('.border-red-500')
     if (el && el.length) {
       // 灰色 div 容器（ChatGPT 回复）
-      let ai = document.querySelectorAll('div.bg-gray-50')
-      let last = ai[ai.length - 1]
+      const ai = document.querySelectorAll('div.bg-gray-50')
+      const last = ai[ai.length - 1]
       if (last.textContent) {
         sessionStorage.setItem(
           key,
