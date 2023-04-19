@@ -34,7 +34,7 @@
     }, ms * 1000)
   }
 
-  const promptString = '自定义多少秒激活一次 ChatGPT (默认 60 秒)'
+  const promptString = '多少秒激活一次 ChatGPT (默认 60 秒) 建议设置 30 秒'
   GM_registerMenuCommand(promptString, function () {
     const second = Number(window.prompt(promptString, activateSecond))
     if (second) {
