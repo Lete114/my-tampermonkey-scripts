@@ -12,8 +12,8 @@
 ;(function () {
   'use strict'
 
-  const $ = (Selector) => document.querySelector(Selector)
-  const $$ = (Selector) => document.querySelectorAll(Selector)
+  const $ = (Selector, el) => (el || document).querySelector(Selector)
+  const $$ = (Selector, el) => (el || document).querySelectorAll(Selector)
 
   const key = 'ChatGPT_question_cache'
   const activateURL = 'https://chat.openai.com/api/auth/session'
@@ -64,12 +64,12 @@
     const el = $$('.border-red-500')
     if (el && el.length) {
       // 灰色 div 容器（ChatGPT 回复）
-      const ai = document.querySelectorAll('div.bg-gray-50')
+      const ai = $$('div.bg-gray-50')
       const last = ai[ai.length - 1]
       if (last.textContent) {
         sessionStorage.setItem(
           key,
-          last.previousSibling.querySelector('.whitespace-pre-wrap').textContent
+          $('.whitespace-pre-wrap', last.previousSibling).textContent
         )
         clearInterval(id)
         location.reload()

@@ -12,8 +12,8 @@
 ;(function () {
   'use strict'
 
-  const $ = (Selector) => document.querySelector(Selector)
-  const $$ = (Selector) => document.querySelectorAll(Selector)
+  const $ = (Selector, el) => (el || document).querySelector(Selector)
+  const $$ = (Selector, el) => (el || document).querySelectorAll(Selector)
   const nullSpan = document.createElement('span')
 
   GM_addStyle(`
@@ -89,7 +89,7 @@
           target.setAttribute(attrKey, attrValue)
       })
     })
-    const btn = el.querySelector('.hljs-button')
+    const btn = $('.hljs-button', el)
     btn.setAttribute(attrKey, attrValue)
     observer.observe(btn, { attributes: true })
   })
