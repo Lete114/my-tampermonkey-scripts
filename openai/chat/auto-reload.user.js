@@ -47,10 +47,7 @@
     }
   }
 
-  /**
-   * 弹出输入框来让用户自定义超时时间
-   */
-  const promptTimeout = '自定义离开 ChatGPT 超时时间 (默认 10 分钟)，停止激活'
+  const promptTimeout = '离开ChatGPT标签页超过指定时间后停止激活(默认10分钟)'
   GM_registerMenuCommand(promptTimeout, () => {
     const minute = Number(window.prompt(promptTimeout, activateMinute))
     if (minute) {
@@ -59,7 +56,7 @@
     }
   })
 
-  const promptActivate = '多少秒激活一次 ChatGPT (默认 60 秒) 建议设置 30 秒'
+  const promptActivate = '多少秒激活一次ChatGPT(默认60秒)建议设置30秒'
   GM_registerMenuCommand(promptActivate, function () {
     const second = Number(window.prompt(promptActivate, activateSecond))
     if (second) {
