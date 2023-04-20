@@ -18,6 +18,7 @@
   const key = 'ChatGPT_question_cache'
   const activateURL = 'https://chat.openai.com/api/auth/session'
   const activateSecond = Number(localStorage.getItem('activateSecond')) || 60
+  let activateMinute = Number(localStorage.getItem('activateMinute')) || 10
 
   let activateTimer = activateChatGPT(activateSecond)
   function activateChatGPT(ms) {
@@ -34,9 +35,33 @@
     }, ms * 1000)
   }
 
-  const promptString = '多少秒激活一次 ChatGPT (默认 60 秒) 建议设置 30 秒'
-  GM_registerMenuCommand(promptString, function () {
-    const second = Number(window.prompt(promptString, activateSecond))
+  let currentTabPageVisibilityTimer
+  document.addEventListener('visibilitychange', handlerCurrentTabPageVisibility)
+  function handlerCurrentTabPageVisibility() {
+    if (document.hidden) {
+      currentTabPageVisibilityTimer = setTimeout(() => {
+        clearInterval(activateTimer)
+      }, activateMinute * 60 * 1000)
+    } else {
+      clearTimeout(currentTabPageVisibilityTimer)
+    }
+  }
+
+  /**
+   * 弹出输入框来让用户自定义超时时间
+   */
+  const promptTimeout = '自定义离开 ChatGPT 超时时间 (默认 10 分钟)，停止激活'
+  GM_registerMenuCommand(promptTimeout, () => {
+    const minute = Number(window.prompt(promptTimeout, activateMinute))
+    if (minute) {
+      activateMinute = minute
+      localStorage.setItem('activateMinute', minute)
+    }
+  })
+
+  const promptActivate = '多少秒激活一次 ChatGPT (默认 60 秒) 建议设置 30 秒'
+  GM_registerMenuCommand(promptActivate, function () {
+    const second = Number(window.prompt(promptActivate, activateSecond))
     if (second) {
       clearInterval(activateTimer)
       localStorage.setItem('activateSecond', second)
