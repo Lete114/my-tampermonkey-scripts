@@ -1,6 +1,7 @@
 // ==UserScript==
 // @author       Lete114
 // @version      0.1
+// @license      MIT License
 // @name         ChatGPT 错误自动刷新
 // @description  (自用脚本) 报错自动刷新，并填充之前报错的提问内容，保活
 // @match        https://chat.openai.com/*

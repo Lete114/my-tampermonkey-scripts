@@ -1,6 +1,7 @@
 // ==UserScript==
 // @author       Lete114
 // @version      0.1
+// @license      MIT License
 // @name         Youtube 视频进度条
 // @description  (自用脚本) Youtube 视频进度条实时显示
 // @match        https://*.youtube.com/*

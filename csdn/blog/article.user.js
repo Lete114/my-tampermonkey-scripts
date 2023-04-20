@@ -1,6 +1,7 @@
 // ==UserScript==
 // @author       Lete114
 // @version      0.1
+// @license      MIT License
 // @name         CSDN 文章页绿化
 // @description  (自用脚本) 绿化 CSDN 文章页面、支持手机端 CSDN 文章页绿化
 // @match        https://blog.csdn.net/*/article/details/*
