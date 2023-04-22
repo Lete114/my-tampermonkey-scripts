@@ -1,6 +1,6 @@
 // ==UserScript==
 // @author       Lete114
-// @version      0.1
+// @version      0.2
 // @license      MIT License
 // @name         CSDN 文章页绿化
 // @description  (自用脚本) 绿化 CSDN 文章页面、支持手机端 CSDN 文章页绿化
@@ -51,56 +51,73 @@
     `)
 
   // 优化文章侧边栏
-  const aside = $('.blog_container_aside')
-  if (aside) {
-    // 重排侧边栏顺序
-    aside.appendChild($('#asideSearchArticle') || nullSpan)
-    aside.appendChild($('#asideProfile') || nullSpan)
-    aside.appendChild($('#asidedirectory') || nullSpan)
-    aside.appendChild($('#asideArchive') || nullSpan)
+  try {
+    const aside = $('.blog_container_aside')
+    if (aside) {
+      // 重排侧边栏顺序
+      aside.appendChild($('#asideSearchArticle') || nullSpan)
+      aside.appendChild($('#asideProfile') || nullSpan)
+      aside.appendChild($('#asidedirectory') || nullSpan)
+      aside.appendChild($('#asideArchive') || nullSpan)
+    }
+  } catch (error) {
+    console.log('优化文章侧边栏失败', error)
   }
 
   // 关闭登录弹窗
-  const style = document.createElement('style')
-  style.textContent = '.passport-login-container{display:none}'
-  document.head.appendChild(style)
-  const timer = setInterval(() => {
-    const closeLogin = $('#passportbox>span')
-    if (closeLogin) {
-      clearInterval(timer)
-      closeLogin.click()
-      style.remove()
-    }
-  }, 500)
+  try {
+    const style = document.createElement('style')
+    style.textContent = '.passport-login-container{display:none}'
+    document.head.appendChild(style)
+    const timer = setInterval(() => {
+      const closeLogin = $('#passportbox>span')
+      if (closeLogin) {
+        clearInterval(timer)
+        closeLogin.click()
+        style.remove()
+      }
+    }, 500)
+  } catch (error) {
+    console.log('关闭登录弹窗失败', error)
+  }
 
   // 免登录复制
-  $$('pre>code').forEach((el) => {
-    el.setAttribute('onclick', 'mdcp.copyCode(event)')
+  try {
+    $$('pre').forEach((el) => {
+      const code = $('code', el)
+      code.setAttribute('onclick', 'mdcp.copyCode(event)')
 
-    const attrKey = 'data-title'
-    const attrValue = '免登录复制'
-    // 修改复制按钮文字
-    const observer = new MutationObserver((mutationList) => {
-      mutationList.forEach((mutation) => {
-        const target = mutation.target
-        if (
-          mutation.type === 'attributes' &&
-          target.getAttribute(attrKey) === '登录后复制'
-        )
-          target.setAttribute(attrKey, attrValue)
+      const attrKey = 'data-title'
+      const attrValue = '免登录复制'
+      // 修改复制按钮文字
+      const observer = new MutationObserver((mutationList) => {
+        mutationList.forEach((mutation) => {
+          const target = mutation.target
+          if (
+            mutation.type === 'attributes' &&
+            target.getAttribute(attrKey) === '登录后复制'
+          )
+            target.setAttribute(attrKey, attrValue)
+        })
       })
+      const btn = $('.hljs-button', el)
+      btn.setAttribute(attrKey, attrValue)
+      observer.observe(btn, { attributes: true })
     })
-    const btn = $('.hljs-button', el)
-    btn.setAttribute(attrKey, attrValue)
-    observer.observe(btn, { attributes: true })
-  })
+  } catch (error) {
+    console.log('免登录复制失败', error)
+  }
 
   // 链接跳转(避免打开 link.csdn.net)
-  const content_views = $('#content_views')
-  const clone = content_views.cloneNode()
-  while (content_views.firstChild) clone.appendChild(content_views.firstChild)
-  content_views.parentNode.replaceChild(clone, content_views)
-  $$('#content_views a[href]').forEach((el) => {
-    el.setAttribute('target', '_blank')
-  })
+  try {
+    const content_views = $('#content_views')
+    const clone = content_views.cloneNode()
+    while (content_views.firstChild) clone.appendChild(content_views.firstChild)
+    content_views.parentNode.replaceChild(clone, content_views)
+    $$('#content_views a[href]').forEach((el) => {
+      el.setAttribute('target', '_blank')
+    })
+  } catch (error) {
+    console.log('链接跳转(避免打开 link.csdn.net)失败', error)
+  }
 })()
